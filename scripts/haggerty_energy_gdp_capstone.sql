@@ -486,6 +486,20 @@ WHERE state_code <> 'US' AND state_code <> 'DC';
 SELECT *
 FROM consump_gdp_pop_prod_ranks;
 
+--align eia_expenditures_total in same format as queries / tables above
+--creat 'VIEW' for additional analysis
+
+SELECT *
+FROM eia_expenditures_total;
+
+CREATE VIEW eia_50st_us_expenditures_total_view AS
+SELECT state_code, INITCAP(description) AS category, 'Dollars' AS unit, "1970"*1000000 AS "1970", "1980"*1000000 AS "1980", "1990"*1000000 AS "1990", 
+	"2000"*1000000 AS "2000", "2010"*1000000 AS "2010", "2020"*1000000 AS "2020"
+FROM eia_expenditures_total
+WHERE state_code <> 'DC'
+ORDER BY state_code, category;
+
+
 
 --##
 --Question 2. What differences in the mix of energy (fossil fuels, nuclear, and renewable energy) and consumption rates can be identified across the states. What contributes to these differences?
@@ -1136,7 +1150,7 @@ SELECT *
 FROM q1_us_consump_gdp_pop_prod_stacked_view;
 
 
---export to csv 'q1_consump_gdp_pop_prod_ranks_stacked'
+
 --UNION queries to create stacked display of info (state_code, category, year, unit, amount, rank)...ORDER BY state_code, category
 --export to csv 'q1_consump_gdp_pop_prod_ranks_stacked'...remove rank column after export
 --CREATE VIEW q1_50st_consump_gdp_pop_prod_stacked_view....use for consolidated POWER BI FACT table
@@ -1168,6 +1182,39 @@ ORDER BY state_code, category;
 --review 'VIEW'....Use for FACT Table Power BI
 SELECT *
 FROM q1_50st_consump_gdp_pop_prod_stacked_view;
+
+
+--create expenditure stacked view
+--UNION queries to create stacked display of info (state_code, category, year, unit, amount, rank)...ORDER BY state_code, category
+--CREATE VIEW q1_eia_50st_us_expenditures_total_stacked_view....use for consolidated POWER BI FACT table
+
+--review 'VIEW'
+SELECT *
+FROM eia_50st_us_expenditures_total_view;
+
+CREATE VIEW q1_eia_50st_us_expenditures_total_stacked_view AS
+SELECT state_code, category, '1970' AS year, unit, "1970" AS amount
+FROM eia_50st_us_expenditures_total_view
+UNION
+SELECT state_code, category, '1980' AS year, unit, "1980" AS amount
+FROM eia_50st_us_expenditures_total_view
+UNION
+SELECT state_code, category, '1990' AS year, unit, "1990" AS amount
+FROM eia_50st_us_expenditures_total_view
+UNION
+SELECT state_code, category, '2000' AS year, unit, "2000" AS amount
+FROM eia_50st_us_expenditures_total_view
+UNION
+SELECT state_code, category, '2010' AS year, unit, "2010" AS amount
+FROM eia_50st_us_expenditures_total_view
+UNION
+SELECT state_code, category, '2020' AS year, unit, "2020" AS amount
+FROM eia_50st_us_expenditures_total_view
+ORDER BY state_code, category;
+
+--review 'VIEW'....Use for FACT Table Power BI
+SELECT *
+FROM q1_eia_50st_us_expenditures_total_stacked_view;
 
 --***********************************************************************
 --Question 2 Queries for Export
@@ -1404,6 +1451,9 @@ SELECT *
 FROM q1_50st_consump_gdp_pop_prod_stacked_view
 UNION
 SELECT *
+FROM q1_eia_50st_us_expenditures_total_stacked_view
+UNION
+SELECT *
 FROM q2_50st_consump_prod_energy_mix_stacked_view
 UNION
 SELECT *
@@ -1412,6 +1462,29 @@ UNION
 SELECT *
 FROM q2_us_consump_prod_consolidated_energy_mix_stacked_view
 ORDER BY state_code, category;
+
+--fix capitalization in category column 
+--export to csv as 'fact_table_q1_q2_sql_consolidated_1'
+SELECT state_code, INITCAP(category) AS category, year, unit, amount
+FROM q1_us_50st_gdp_total_stacked_view
+UNION
+SELECT state_code, INITCAP(category) AS category, year, unit, amount
+FROM q1_50st_consump_gdp_pop_prod_stacked_view
+UNION
+SELECT state_code, INITCAP(category) AS category, year, unit, amount
+FROM q1_eia_50st_us_expenditures_total_stacked_view
+UNION
+SELECT state_code, INITCAP(category) AS category, year, unit, amount
+FROM q2_50st_consump_prod_energy_mix_stacked_view
+UNION
+SELECT state_code, INITCAP(category) AS category, year, unit, amount
+FROM q1_us_consump_gdp_pop_prod_stacked_view
+UNION
+SELECT state_code, INITCAP(category) AS category, year, unit, amount
+FROM q2_us_consump_prod_consolidated_energy_mix_stacked_view
+ORDER BY state_code, category;
+
+
 
 --***********************************************************************
 --Consolidate 'VIEW's for Export --- Utilize for AGGREGATION Table in Power BI
