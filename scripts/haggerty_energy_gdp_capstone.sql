@@ -837,6 +837,8 @@ GROUP BY category, unit
 
 --UNION avg amount of change queries to create consolidated table for 50 STATE AVERAGE
 --export to csv '50_state_avg_amt_chg_consump_prod_consolidated_energy_mix_ranks'
+--create view 'combined_50st_avg_amount_chg_consump_prod_view' for update to stacked columns
+CREATE VIEW combined_50st_avg_amount_chg_consump_prod_view AS
 SELECT '50 State Average' AS description, category, unit, ROUND(AVG(chg_70_80),2) AS avg_amt_chg_70_80, ROUND(AVG(chg_80_90),2) AS avg_amt_chg_80_90, 
 	ROUND(AVG(chg_90_00),2) AS avg_amt_chg_90_00, ROUND(AVG(chg_00_10),2) AS avg_amt_chg_00_10, ROUND(AVG(chg_10_20),2) AS avg_amt_chg_10_20
 FROM amt_chg_70_20
@@ -867,6 +869,10 @@ FROM amt_chg_70_20
 WHERE category = 'Renewable-Production' AND state_code <> 'US' AND state_code <> 'DC'
 GROUP BY category, unit
 ORDER BY category ASC;
+
+--review 'VIEW'
+SELECT *
+FROM combined_50st_avg_amount_chg_consump_prod_view;
 
 --filter amount of change for US NATIONAL 
 --export csv 'us_amt_chg_consump_prod_consolidated_energy_mix'
@@ -983,6 +989,8 @@ GROUP BY category;
 
 --UNION avg percent of change queries to create consolidated table for 50 STATE AVERAGE
 --export to csv '50_state_avg_pct_chg_consump_prod_consolidated_energy_mix_ranks'
+--create view 'combined_50st_avg_percent_chg_consump_prod_view' for update to stacked columns
+CREATE VIEW combined_50st_avg_percent_chg_consump_prod_view AS
 SELECT '50 State Average' AS description, category, unit, ROUND(AVG(pct_chg_70_80),2) AS avg_pct_chg_70_80, ROUND(AVG(pct_chg_80_90),2) AS avg_pct_chg_80_90, 
 	ROUND(AVG(pct_chg_90_00),2) AS avg_pct_chg_90_00, ROUND(AVG(pct_chg_00_10),2) AS avg_pct_chg_00_10, ROUND(AVG(pct_chg_10_20),2) AS avg_pct_chg_10_20
 FROM pct_chg_70_20_cln
@@ -1013,6 +1021,10 @@ FROM pct_chg_70_20_cln
 WHERE category = 'Renewable-Production' AND state_code <> 'US' AND state_code <> 'DC'
 GROUP BY category, unit
 ORDER BY category ASC;
+
+--review 'VIEW'
+SELECT *
+FROM combined_50st_avg_percent_chg_consump_prod_view;
 
 --filter percent of change for US NATIONAL
 --export to csv for data visualization 'us_pct_chg_consump_prod_consolidated_energy_mix_ranks'
@@ -1368,6 +1380,34 @@ ORDER BY state_code, category;
 SELECT *
 FROM q3_us_chg_consump_prod_consolidated_energy_mix_stacked_view;
 
+
+--UNION queries to create stacked display of info (state_code, category, year, unit, amount)...ORDER BY state_code, category
+--CREATE VIEW combined_50st_avg_amount_chg_consump_prod_stacked_view_1....use for consolidated POWER BI AGGREGATION table
+
+SELECT *
+FROM combined_50st_avg_amount_chg_consump_prod_view;
+
+CREATE VIEW combined_50st_avg_amount_chg_consump_prod_stacked_view_1 AS
+SELECT '50 State Avg' AS state_code, category, 'Average Change 1970-1980' AS description, unit, avg_amt_chg_70_80 AS amount
+FROM combined_50st_avg_amount_chg_consump_prod_view
+UNION
+SELECT '50 State Avg' AS state_code, category, 'Average Change 1980-1990' AS description, unit, avg_amt_chg_80_90 AS amount
+FROM combined_50st_avg_amount_chg_consump_prod_view
+UNION
+SELECT '50 State Avg' AS state_code, category, 'Average Change 1990-2000' AS description, unit, avg_amt_chg_90_00 AS amount
+FROM combined_50st_avg_amount_chg_consump_prod_view
+UNION
+SELECT '50 State Avg' AS state_code, category, 'Average Change 2000-2010' AS description, unit, avg_amt_chg_00_10 AS amount
+FROM combined_50st_avg_amount_chg_consump_prod_view
+UNION
+SELECT '50 State Avg' AS state_code, category, 'Average Change 2010-2020' AS description, unit, avg_amt_chg_10_20 AS amount
+FROM combined_50st_avg_amount_chg_consump_prod_view
+ORDER BY state_code, category;
+
+--review 'VIEW'....Use for AGGREGATION Table Power BI
+SELECT *
+FROM combined_50st_avg_amount_chg_consump_prod_stacked_view_1;
+
 --***********************************************************************
 --Question 4 Queries for Export
 --***********************************************************************
@@ -1439,6 +1479,33 @@ ORDER BY state_code, category;
 SELECT *
 FROM q4_us_pct_chg_consump_prod_consolidated_energy_mix_stacked_view;
 
+--UNION queries to create stacked display of info (state_code, category, year, unit, amount)...ORDER BY state_code, category
+--CREATE VIEW combined_50st_avg_percent_chg_consump_prod_stacked_view_1....use for consolidated POWER BI AGGREGATION table
+
+SELECT *
+FROM combined_50st_avg_percent_chg_consump_prod_view;
+
+CREATE VIEW combined_50st_avg_percent_chg_consump_prod_stacked_view_1 AS
+SELECT '50 State Avg Pct' AS state_code, category, 'Avg Pct Change 1970-1980' AS description, unit, avg_pct_chg_70_80 AS amount
+FROM combined_50st_avg_percent_chg_consump_prod_view
+UNION
+SELECT '50 State Avg Pct' AS state_code, category, 'Avg Pct Change 1980-1990' AS description, unit, avg_pct_chg_80_90 AS amount
+FROM combined_50st_avg_percent_chg_consump_prod_view
+UNION
+SELECT '50 State Avg Pct' AS state_code, category, 'Avg Pct Change 1990-2000' AS description, unit, avg_pct_chg_90_00 AS amount
+FROM combined_50st_avg_percent_chg_consump_prod_view
+UNION
+SELECT '50 State Avg Pct' AS state_code, category, 'Avg Pct Change 2000-2010 ' AS description, unit, avg_pct_chg_00_10 AS amount
+FROM combined_50st_avg_percent_chg_consump_prod_view
+UNION
+SELECT '50 State Avg Pct' AS state_code, category, 'Avg Pct Change 2010-2020' AS description, unit, avg_pct_chg_10_20 AS amount
+FROM combined_50st_avg_percent_chg_consump_prod_view
+ORDER BY state_code, category;
+
+--review 'VIEW'....Use for AGGREGATION Table Power BI
+SELECT *
+FROM combined_50st_avg_percent_chg_consump_prod_stacked_view_1;
+
 --***********************************************************************
 --Consolidate 'VIEW's for Export --- Utilize for FACT Table in Power BI
 --***********************************************************************
@@ -1502,4 +1569,11 @@ FROM q3_us_chg_consump_prod_consolidated_energy_mix_stacked_view
 UNION
 SELECT *
 FROM q4_us_pct_chg_consump_prod_consolidated_energy_mix_stacked_view
+UNION
+SELECT *
+FROM combined_50st_avg_amount_chg_consump_prod_stacked_view_1
+UNION
+SELECT *
+FROM combined_50st_avg_percent_chg_consump_prod_stacked_view_1
 ORDER BY state_code, category;
+
