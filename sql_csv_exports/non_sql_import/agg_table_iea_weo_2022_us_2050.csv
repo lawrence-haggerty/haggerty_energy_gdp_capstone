@@ -1,0 +1,19 @@
+st_code,Scenario,Product ,Flow,Year,Billion Btu
+US,Stated Policies Scenario,Total,Total energy supply,2010,89094809
+US,Stated Policies Scenario,Total,Total energy supply,2020,82460089
+US,Stated Policies Scenario,Total,Total energy supply,2030,82460089
+US,Stated Policies Scenario,Total,Total energy supply,2050,75825370
+US,Announced Pledges Scenario,Total,Total energy supply,2030,78668821
+US,Announced Pledges Scenario,Total,Total energy supply,2050,65399381
+US,Stated Policies Scenario,Renewables,Total energy supply,2010,6634720
+US,Stated Policies Scenario,Renewables,Total energy supply,2020,8530354
+US,Stated Policies Scenario,Renewables,Total energy supply,2030,15165074
+US,Stated Policies Scenario,Renewables,Total energy supply,2050,26538879
+US,Announced Pledges Scenario,Renewables,Total energy supply,2030,19904160
+US,Announced Pledges Scenario,Renewables,Total energy supply,2050,39808319
+US,Stated Policies Scenario,Total,Total final consumption,2010,60660296
+US,Stated Policies Scenario,Total,Total final consumption,2020,58764661
+US,Stated Policies Scenario,Total,Total final consumption,2030,61608113
+US,Stated Policies Scenario,Total,Total final consumption,2050,56869027
+US,Announced Pledges Scenario,Total,Total final consumption,2030,57816844
+US,Announced Pledges Scenario,Total,Total final consumption,2050,43599588
