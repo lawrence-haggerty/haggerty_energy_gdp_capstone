@@ -1,0 +1,9 @@
+Country,Description,Year,Unit,Biomass and waste,Hydro ,Geothermal,Wind,Solar,Ocean
+US,Gross Electricity Generation ,2025,Billion Btu,427840,1039800,157956,1452635,622478,2654
+US,Gross Electricity Generation ,2030,Billion Btu,471202,1080335,201145,1830311,835204,7308
+US,Gross Electricity Generation ,2035,Billion Btu,513534,1128786,257099,1949464,1054556,12256
+US,Gross Electricity Generation ,2040,Billion Btu,549491,1180235,311412,2020179,1267150,19267
+US,Gross Electricity Generation ,2045,Billion Btu,582814,1231684,375028,2085387,1464202,22776
+US,Gross Electricity Generation ,2050,Billion Btu,618967,1270429,438644,2291412,1675441,28036
+US,Gross Electricity Generation ,2055,Billion Btu,658849,1334583,502260,2456656,1886679,36625
+US,Gross Electricity Generation ,2060,Billion Btu,641386,1386032,565876,2642290,2097920,42411
